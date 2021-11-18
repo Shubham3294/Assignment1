@@ -5,7 +5,9 @@ import time
 
 class Test_login:
     SaucedemoUrl= "https://www.saucedemo.com/"
-    parameterList=[("standard_user","secret_sauce"),("gs@gmail.com","secret_sauce")]
+    parameterList=[("standard_user","secret_sauce"),("locked_out_user","secret_sauce"),
+                    ("gs@gmail.com","secret_sauce"),("problem_user","secret_sauce")]
+                    
     @pytest.mark.parametrize("login_input,password_input",parameterList)
     def test_login(self,setup,login_input,password_input):
         self.driver=setup

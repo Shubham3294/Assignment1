@@ -7,9 +7,9 @@ import logging
 
 class TestUI:
 
-    @pytest.mark.parametrize("login_input,password_input",[("standard_user","secret_sauce"),("gs@gmail.com","secret_sauce")])
+    @pytest.mark.parametrize("login_input,password_input",[("standard_user","secret_sauce"),("locked_out_user","secret_sauce"),("gs@gmail.com","secret_sauce"),("problem_user","secret_sauce")])
     def test_login(self,login_input,password_input):
-        
+
         s=Service("C:/Users/GS-3294/Documents/chromedriver_win32 (1)/chromedriver.exe")
         self.driver=webdriver.Chrome(service=s)
         self.driver.get("https://www.saucedemo.com/")
