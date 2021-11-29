@@ -1,54 +1,42 @@
 import paramiko
 import pytest
 
+
 class Test_vm:
+    
+    memUtil_cmd = "free | grep Mem | awk '{print ($2-$7)/$2 * 100}'"  
+    cpu_info_cmd = "lscpu"
 
-    host = "192.168.1.15"
-    port = 22
-    username = "shubham"
-    password = 123
-    command = "free | grep Mem | awk '{print ($2-$7)/$2 * 100}'"
-    command1 = "df -h"
-    command2 = "ls"
-    command3 = "lscpu"
-
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(host, port, username, password)
-
-
-    def runSsh(self,cmd):
+    def runssh(self,cmd):
         userName = "shubham"
-        password = 123
+        password = "123"
         hostname = "192.168.1.15"
         try:
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            paramiko.util.log_to_file("filename.log")
+            
             ssh.connect(hostname, username=userName, port=22, password=password)
-            print("connected to host", self.host)
+            
             stdin, stdout, stderr = ssh.exec_command(cmd, timeout=10)
-            result = stdout.read()
-            result1 = result.decode()
-            print()
+
+            cmd_output = stdout.read()
+            cmd_output_decoded = cmd_output.decode()
+            
             error = stderr.read().decode('utf-8')
 
             if not error:
                 ssh.close()
-            return result1
+            return cmd_output_decoded
         except paramiko.AuthenticationException:
             print("Authentication failed, please verify your credentials: %s")
 
 
-    def test_memory_util(self):
+    def test_validate_memutil(self):
 
-        self.memoryUtil = float(self.runSsh(self.command))
-        print(self.runSsh(self.command))
-        print(self.memoryUtil)
+        self.memoryUtil = float(self.runssh(self.memUtil_cmd))
+        assert self.memoryUtil < 90
 
-        assert self.memoryUtil > 90
+    def test_validate_architecture(self):
 
-
-
-
-
+        self.architecture = self.runssh(self.cpu_info_cmd).replace(" ","").split("\n")[0][-6:]
+        assert self.architecture == "x86_64"
