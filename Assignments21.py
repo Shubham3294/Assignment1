@@ -35,6 +35,6 @@ def runSsh(cmd):
 
 
 
-memoryUtil = runSsh(command3).replace(" ","").split("\n")[0][-6:]
+memoryUtil = runSsh(command3).replace(" ","").split("\n")[13][10:]
 
 print("The Memory Utilization is : ", memoryUtil)

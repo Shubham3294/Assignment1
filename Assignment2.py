@@ -30,13 +30,20 @@ class Test_vm:
         except paramiko.AuthenticationException:
             print("Authentication failed, please verify your credentials: %s")
 
-
+    
     def test_validate_memutil(self):
 
         self.memoryUtil = float(self.runssh(self.memUtil_cmd))
         assert self.memoryUtil < 90
 
+    
     def test_validate_architecture(self):
 
         self.architecture = self.runssh(self.cpu_info_cmd).replace(" ","").split("\n")[0][-6:]
         assert self.architecture == "x86_64"
+
+
+    def test_validate_model_name(self):
+
+        self.modelname = self.runssh(self.cpu_info_cmd).replace(" ","").split("\n")[13][10:]
+        assert self.modelname == "Intel(R)Core(TM)i5-8265UCPU@1.60GHz"

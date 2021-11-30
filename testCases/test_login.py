@@ -3,6 +3,7 @@ from selenium import webdriver
 from pageElement.loginPage import Login
 import time
 
+@pytest.mark.UI
 class Test_login:
     SaucedemoUrl= "https://www.saucedemo.com/"
     parameterList=[("standard_user","secret_sauce"),("locked_out_user","secret_sauce"),
