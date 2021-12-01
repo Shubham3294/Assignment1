@@ -15,3 +15,5 @@ class Login:
 
     def clickLogin(self):
         self.driver.find_element(By.XPATH,value=self.loginbutton_xpath).click()
+
+    

@@ -3,7 +3,7 @@ from selenium import webdriver
 from pageElement.loginPage import Login
 import time
 
-@pytest.mark.UI
+
 class Test_login:
     SaucedemoUrl= "https://www.saucedemo.com/"
     parameterList=[("standard_user","secret_sauce"),("locked_out_user","secret_sauce"),
@@ -15,8 +15,15 @@ class Test_login:
         self.driver.get(self.SaucedemoUrl)
         self.driver.maximize_window()
         self.loginPage=Login(self.driver)
+        
         self.loginPage.setusername(login_input)
         self.loginPage.setpassword(password_input)
         self.loginPage.clickLogin()
-        time.sleep(3)
+        time.sleep(3)   
+        current_url= self.driver.current_url
         self.driver.close()
+
+        assert current_url == "https://www.saucedemo.com/inventory.html"
+        
+        
+
